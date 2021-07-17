@@ -36,11 +36,10 @@ fn main() {
 
     let mut merged_stack = Vec::new();
 
-    let mut stack_offset = 0;
     let mut last_index = 0;
     for (insert_points, span) in spans.into_iter().map(|span| (find_insert_points(&stack, &span), span)) {
         for insert_point in insert_points {
-            for i in last_index+stack_offset..insert_point.index+stack_offset {
+            for i in last_index..insert_point.index {
                 merged_stack.push(stack[i].clone());
                 last_index += 1;
             }
@@ -54,7 +53,6 @@ fn main() {
                 offset: insert_point.pop_offset,
                 kind: HighlightOpKind::Pop,
             });
-            stack_offset += 1;
         }
     }
 
@@ -75,10 +73,10 @@ fn find_insert_points(stack: &[HighlightOp], span: &Span<'_>) -> Vec<InsertPoint
     for i in 0..stack.len()-1 {
         let op = &stack[i];
         // Find a slot in `stack` such that it would stay sorted if `span` was inserted there.
-        // That is, find a slot where `stack[i].offset < span.offset < stack[i].offset`.
-        if op.offset < span.offset {
+        // That is, find a slot where `stack[i].offset <= span.offset <= stack[i].offset`.
+        if op.offset <= span.offset {
             if let Some(peek_op) = stack.get(i+1) {
-                if peek_op.offset > span.offset {
+                if peek_op.offset >= span.offset {
                     let available_space = peek_op.offset - span.offset;
 
                     // If it was found, mark this slot as an `InsertPoint`
@@ -92,7 +90,7 @@ fn find_insert_points(stack: &[HighlightOp], span: &Span<'_>) -> Vec<InsertPoint
                         // If `span` doesn't fit in this slot, then split `span` and
                         // find a slot for the next part.
                         span.text = &span.text[peek_op.offset - span.offset..];
-                        span.offset = peek_op.offset+1
+                        span.offset = peek_op.offset
                     } else {
                         // If it fits, we're done.
                         return insert_points;
@@ -213,21 +211,23 @@ impl<'a> fmt::Display for Escape<'a> {
 fn diff<'a>(old: &'a str, new: &'a str) -> Vec<Span<'a>> {
     dissimilar::diff(old, new)
         .into_iter()
+        .filter(|c| !matches!(c, dissimilar::Chunk::Delete(_)))
         .scan(0, |offset, change| {
             let (text, class) = match change {
                 dissimilar::Chunk::Equal(t) => (t, "diff-equal".into()),
                 dissimilar::Chunk::Insert(t) => (t, "diff-insert".into()),
-                dissimilar::Chunk::Delete(t) => (t, "diff-delete".into()),
+                dissimilar::Chunk::Delete(_) => unreachable!(),
             };
 
-            *offset += text.len();
-
-            Some(Span {
+            let span = Some(Span {
                 offset: *offset,
                 text,
                 class,
-            })
+            });
+
+            *offset += text.len();
+
+            span
         })
-        .filter(|s| s.class != "diff-delete")
         .collect()
 }
