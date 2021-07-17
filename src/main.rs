@@ -1,8 +1,4 @@
-use syntect::{
-    html::ClassStyle,
-    parsing::{BasicScopeStackOp, ParseState, Scope, ScopeStack, SyntaxSet, SCOPE_REPO},
-    util::LinesWithEndings,
-};
+use syntect::{highlighting::ThemeSet, html::{ClassStyle, css_for_theme_with_class_style}, parsing::{BasicScopeStackOp, ParseState, Scope, ScopeStack, SyntaxSet, SCOPE_REPO}, util::LinesWithEndings};
 
 #[derive(Debug, Clone)]
 struct Span<'a> {
@@ -57,6 +53,42 @@ fn main() {
     }
 
     println!("MERGED:\n{:#?}", merged_stack);
+
+    let mut html = String::new();
+    let mut last_char = 0;
+    for op in merged_stack {
+        if op.offset > last_char {
+            html.push_str(&Escape(&INPUT[last_char..op.offset]).to_string());
+            last_char = op.offset;
+        }
+
+        match op.kind {
+            HighlightOpKind::Push { class } => html.push_str(&format!("<span class=\"{}\">", class)),
+            HighlightOpKind::Pop => html.push_str("</span>")
+        }
+    }
+    html.push_str(&Escape(&INPUT[last_char..]).to_string());
+
+    let theme_set = ThemeSet::load_defaults();
+    let theme = &theme_set.themes["base16-ocean.dark"];
+
+    let css = css_for_theme_with_class_style(theme, ClassStyle::Spaced);
+
+    std::fs::write("output.html", format!("
+        <style>
+            .diff-insert {{
+                background-color: #24bd82;
+            }}
+
+            .diff-delete {{
+                background-color: #bd244a;
+            }}
+            {}
+        </style>
+        <pre>
+        {}
+        </pre>
+    ", css, html)).unwrap();
 }
 
 #[derive(Debug, Clone)]
