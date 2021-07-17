@@ -1,0 +1,8 @@
+[package]
+name = "syntect-play"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+syntect = "4.5"
+dissimilar = "1.0"

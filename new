@@ -1,0 +1,8 @@
+us<Add>e syn</Add>te<Add>ct</Add>::{parsing::{BasicScopeStackOp, ParseState, ScopeStack, SyntaxSet}, util::LinesWithEndings};
+<Use>use</Use> <Path><Crate>syntect</Crate><Punctuation>::</Punctuation><{parsing::{BasicScopeStackOp, ParseState, ScopeStack, SyntaxSet}, util::LinesWithEndings};</Path>
+
+fn main() {
+    let code = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/src/main.rs"));
+
+    highlight_code(code);
+}

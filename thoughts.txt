@@ -1,0 +1,204 @@
+HIGHLIGHTS:
+[
+    HighlightOp {
+        offset: 0,
+        kind: Push {
+            class: "source rust",
+        },
+    },
+    HighlightOp {
+        offset: 0,
+        kind: Push {
+            class: "keyword other rust",
+        },
+    },
+    HighlightOp {
+        offset: 3,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 4,
+        kind: Push {
+            class: "meta path rust",
+        },
+    },
+    HighlightOp {
+        offset: 7,
+        kind: Push {
+            class: "punctuation accessor rust",
+        },
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Push {
+            class: "meta path rust",
+        },
+    },
+    HighlightOp {
+        offset: 13,
+        kind: Push {
+            class: "punctuation accessor rust",
+        },
+    },
+    HighlightOp {
+        offset: 15,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 15,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 20,
+        kind: Push {
+            class: "keyword operator rust",
+        },
+    },
+    HighlightOp {
+        offset: 22,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 30,
+        kind: Push {
+            class: "punctuation terminator rust",
+        },
+    },
+    HighlightOp {
+        offset: 31,
+        kind: Pop,
+    },
+]
+DIFF:
+[
+    Span {
+        offset: 17,
+        text: "use std:",
+        class: "diff-insert",
+    },
+    Span {
+        offset: 30,
+        text: ":path::Path a",
+        class: "diff-equal",
+    },
+    Span {
+        offset: 34,
+        text: "s ",
+        class: "diff-insert",
+    },
+    Span {
+        offset: 40,
+        text: "StdPat",
+        class: "diff-equal",
+    },
+    Span {
+        offset: 44,
+        text: "h;\n",
+        class: "diff-insert",
+    },
+]
+MERGED:
+[
+    HighlightOp {
+        offset: 0,
+        kind: Push {
+            class: "source rust",
+        },
+    },
+    HighlightOp {
+        offset: 0,
+        kind: Push {
+            class: "keyword other rust",
+        },
+    },
+    HighlightOp {
+        offset: 3,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 4,
+        kind: Push {
+            class: "meta path rust",
+        },
+    },
+    HighlightOp {
+        offset: 7,
+        kind: Push {
+            class: "punctuation accessor rust",
+        },
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 9,
+        kind: Push {
+            class: "meta path rust",
+        },
+    },
+    HighlightOp {
+        offset: 13,
+        kind: Push {
+            class: "punctuation accessor rust",
+        },
+    },
+    HighlightOp {
+        offset: 15,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 15,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 17,
+        kind: Push {
+            class: "diff-insert",
+        },
+    },
+    HighlightOp {
+        offset: 20,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 22,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 21,
+        kind: Push {
+            class: "diff-insert",
+        },
+    },
+    HighlightOp {
+        offset: 22,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 31,
+        kind: Pop,
+    },
+    HighlightOp {
+        offset: 23,
+        kind: Push {
+            class: "diff-insert",
+        },
+    },
+    HighlightOp {
+        offset: 27,
+        kind: Pop,
+    },
+]
